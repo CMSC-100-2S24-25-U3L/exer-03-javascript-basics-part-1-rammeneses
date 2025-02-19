@@ -100,9 +100,9 @@ function reverse(str){
 //      name: name,
 //      newpassword: pass1
 // }
-function storePassword(name, pass1, pass2) {
+function storePassword(name, pass1, pass2, debug = false) {
     // Validate the password
-    let isValidPassword = validatePassword(pass1, pass2)
+    let isValidPassword = validatePassword(pass1, pass2, debug)
     const data = {
         name: name,
         newpassword: (isValidPassword) ? reverse(pass1) : pass1 // reverses the password if the passwords are valid
@@ -112,5 +112,14 @@ function storePassword(name, pass1, pass2) {
 }
 
 // End of Function Definitions
+
+// Function calls
+// -- NO DEBUG --
+console.log("-- NO DEBUG --")
 console.log(storePassword("John", "Pass1234", "Pass1234"));
 console.log(storePassword("John", "Pass123", "Pass1234"));
+console.log("-- WITH DEBUG --")
+// -- WITH DEBUG --
+console.log(storePassword("John", "Pass1234", "Pass1234", true));
+console.log(storePassword("John", "Pass123", "Pass1234", true));
+
