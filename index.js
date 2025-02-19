@@ -14,17 +14,18 @@
 //      at least 1 uppercase letter, 1 lowercase letter, & 1 number
 // otherwise
 // returns false
-function validatePassword(pass1, pass2){
+function validatePassword(pass1, pass2, debug = false){
     // guard clause for password length
     if (pass1.length < 8 || pass2.length < 8) {
-        console.log("Invalid password length!");
+        if (debug) console.log("Invalid password length!");
         return false;
     }
     // guard clause for matching
     if (pass1 !== pass2) {
-        console.log("Passwords do not match!");
+        if (debug) console.log("Passwords do not match!");
         return false;
     }
+
     // checking for the required character types
     // initializing values used for checking
     let isValidFlag = false;
@@ -34,9 +35,6 @@ function validatePassword(pass1, pass2){
     let uppercase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     let lowercase = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     let numbers = ['1', '2', '3', '4', '5', '6', '9', '0']
-    // console.log(uppercase)
-    // console.log(lowercase)
-    // console.log(numbers)
 
     // Password Conversion to array
     // to be able to use .some for checking
@@ -47,7 +45,6 @@ function validatePassword(pass1, pass2){
     // NOTE: array to array checking taken from 
     //          https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
     // Uppercase checking
-    // if ( pass1.some((char) => {return uppercase.includes(char);}) ){
     if ( pass1.some((char) => {return uppercase.includes(char);}) && pass2.some((char) => {return uppercase.includes(char);}) ){
         hasUpper = true;
     }
@@ -61,11 +58,20 @@ function validatePassword(pass1, pass2){
         hasNumber = true;
     }
 
+    // for debugging
+    if (debug){
+        const flags = {
+            upper: hasUpper,
+            lower: hasLower,
+            numbers: hasNumber
+        }
+        console.log(flags)
+    }
+
     // totality checking
     if (hasUpper && hasLower && hasNumber){
         return true;
     }
-    // console.log("Invalid password!");
     return false;
 }
 
@@ -73,7 +79,7 @@ function validatePassword(pass1, pass2){
 // reverse(str)
 // returns the reverse of the given string
 function reverse(str){
-    // return str.split('').reverse().join('')
+    // return str.split('').reverse().join('') // earlier version until I reread the exer specs
     let rev = [];
     for (let i = str.length; i > -1; i--) {
         rev.push(str[i]);
@@ -95,42 +101,16 @@ function reverse(str){
 //      newpassword: pass1
 // }
 function storePassword(name, pass1, pass2) {
-    console.log(name,pass1,pass2)
+    // Validate the password
+    let isValidPassword = validatePassword(pass1, pass2)
+    const data = {
+        name: name,
+        newpassword: (isValidPassword) ? reverse(pass1) : pass1 // reverses the password if the passwords are valid
+    }
+    // returns the object
+    return data
 }
 
 // End of Function Definitions
-
-// function calls
-if(validatePassword("Password", "Password")){
-    console.log("test 1 pass")
-} 
-else console.log("test 1 fail")
-
-if(validatePassword("Passwor", "Password")){
-    console.log("test 2 pass")
-} 
-else console.log("test 2 fail")
-
-if(validatePassword("Password", "Passwor")){
-    console.log("test 3 pass")
-} 
-else console.log("test 3 fail")
-
-if(validatePassword("password", "password")){
-    console.log("test 4 pass")
-} 
-else console.log("test 4 fail")
-
-if(validatePassword("passworD1", "passworD1")){
-    console.log("test 5 pass")
-} 
-else console.log("test 5 fail")
-
-if(validatePassword("passworD1", "passworD2")){
-    console.log("test 6 pass")
-} 
-else console.log("test 6 fail")
-
-
-console.log(reverse("Montelli"));
-storePassword("Za","n","i");
+console.log(storePassword("John", "Pass1234", "Pass1234"));
+console.log(storePassword("John", "Pass123", "Pass1234"));
