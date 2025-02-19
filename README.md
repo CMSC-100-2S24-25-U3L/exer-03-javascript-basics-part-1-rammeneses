@@ -4,3 +4,4 @@ Raphael Andrei M. Meneses
 BS Computer Science
 
 Key Takeaways:
+Converting Strings to an array using .split(''), may help in manipulating said string
